@@ -18,7 +18,7 @@ BUILD_HOME=$2   # DON'T CHANGE
 SILENT_BUILD=
 
 # use the GCC target name for the desired architecture here, i.e, "avr", "mips-elf", etc.
-TARGET=arm-xilinx-linux-gnueabi
+TARGET=arm-none-linux-gnueabi
 
 # You should probably use the most recent stable versions... but sometimes you need
 # a bit more research...
@@ -38,6 +38,7 @@ MPFR_SITE=http://mpfr.loria.fr/mpfr-current
 MPC_SITE=http://www.multiprecision.org/mpc/download
 GCC_SITE=http://gnu.c3sl.ufpr.br/ftp/gcc/gcc-$GCC_VERSION
 GLIBC_SITE=http://ftp.gnu.org/gnu/glibc
+GLIBC_PORTS_SITE=http://ftp.gnu.org/gnu/glibc
 GDB_SITE=http://ftp.gnu.org/gnu/gdb
 
 
@@ -52,11 +53,12 @@ MPFR=mpfr-$MPFR_VERSION
 MPC=mpc-$MPC_VERSION
 GCC=gcc-$GCC_VERSION
 GLIBC=glibc-$GLIBC_VERSION
+GLIBC_PORTS=glibc-ports-$GLIBC_VERSION
 GDB=gdb-$GDB_VERSION
 
 
-PACKLITERALS=(  '$BINUTILS' '$GMP'     '$MPFR'   '$MPC'    '$GCC'      '$GLIBC'   '$GDB')
-PACKEXTENSIONS=('.tar.gz'   '.tar.bz2' '.tar.gz' '.tar.gz' '.tar.gz'   '.tar.gz'  '.tar.gz')
+PACKLITERALS=(  '$BINUTILS' '$GMP'     '$MPFR'   '$MPC'    '$GCC'      '$GLIBC'   '$GLIBC_PORTS' '$GDB')
+PACKEXTENSIONS=('.tar.gz'   '.tar.bz2' '.tar.gz' '.tar.gz' '.tar.gz'   '.tar.gz'  '.tar.gz'      '.tar.gz')
 TASKLITERALS='$BINUTILS $GMP $MPFR $MPC $GCC $GLIBC $GCC $GDB' # 2 GCC tasks (pre- and post-bootstrap)
 
 # Configure options for all packages. Change only if the "reasonable" defaults don't work
@@ -65,7 +67,7 @@ GMP_OPT=""
 MPFR_OPT="--with-gmp=$PREFIX"
 MPC_OPT="--with-gmp=$PREFIX --with-mpfr=$PREFIX"
 GCC_OPT="--target=$TARGET --with-mpfr=$PREFIX --with-mpc=$PREFIX --disable-nls --enable-languages=c --without-headers --with-newlib --with-multilib --disable-libssp --disable-shared --disable-threads"
-GLIBC_OPT="--host=$TARGET"
+GLIBC_OPT="--enable-add-ons=nptl,ports --host=$TARGET"
 GCC_2_OPT="--target=$TARGET --with-mpfr=$PREFIX --with-mpc=$PREFIX --disable-nls --enable-languages=c,c++ --with-newlib --with-multilib --disable-libssp --disable-shared --disable-threads"
 GDB_OPT="--target=$TARGET --with-gmp=$PREFIX --with-mpfr=$PREFIX --disable-nls --disable-libssp --disable-werror"
 
