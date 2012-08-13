@@ -27,6 +27,9 @@ for (( n=0; n<${#PACKLITERALS[@]}; n++ )); do
     if [ ! -d $PACKNAME ]; then
         if [ $EXTENSION = '.tar.gz' ]; then FL='z'; else FL='j'; fi
         tar -x${FL}f "$PACKDIR/${PACKNAME}${EXTENSION}"
+
+        # when unpacking glibc-ports, symlink it into the glibc dir
+        if [ $PACKNAME = $GLIBC_PORTS ]; then  ln -s ${BUILD}/${GLIBC_PORTS} ${BUILD}/${GLIBC}/ports;  fi
     fi
 done
 
