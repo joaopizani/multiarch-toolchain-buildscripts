@@ -11,16 +11,18 @@
 # build-essential, automake, autoconf, m4, flex, bison, texinfo
 
 
-TARGET=""
+TARGET="avr"
 
 declare -A VERSIONS=( \
-                      ['BINUTILS']="" \
-                      ['GMP']="" \
-                      ['MPFR']="" \
-                      ['MPC']="" \
-                      ['GCC']="" \
-                      ['NEWLIB']="" \
-                      ['GDB']="" \
+                      ['BINUTILS']="2.24" \
+                      ['GMP']="6.0.0a" \
+                      ['MPFR']="3.1.2" \
+                      ['MPC']="1.0.2" \
+                      ['GCC']="4.9.1" \
+                      ['AVRLIBC']="1.8.1" \
+                      ['SIMULAVR']="1.0.0" \
+                      ['GDB']="7.8" \
+                      ['AVRDUDE']="6.1" \
                       )
 
 declare -A SITES=( \
@@ -29,8 +31,10 @@ declare -A SITES=( \
                    ['MPFR']="http://www.mpfr.org/mpfr-current" \
                    ['MPC']="http://www.multiprecision.org/mpc/download" \
                    ['GCC']="http://gnu.c3sl.ufpr.br/ftp/gcc/gcc-${VERSIONS['GCC']}" \
-                   ['NEWLIB']="ftp://sources.redhat.com/pub/newlib" \
+                   ['AVRLIBC']="http://download.savannah.gnu.org/releases/avr-libc" \
+                   ['SIMULAVR']="http://download.savannah.gnu.org/releases/simulavr" \
                    ['GDB']="http://ftp.gnu.org/gnu/gdb" \
+                   ['AVRDUDE']="http://download.savannah.gnu.org/releases/avrdude" \
                    )
 
 declare -A PACKS=( \
@@ -39,64 +43,86 @@ declare -A PACKS=( \
                    ['MPFR']="mpfr-${VERSIONS['MPFR']}.tar.gz" \
                    ['MPC']="mpc-${VERSIONS['MPC']}.tar.gz" \
                    ['GCC']="gcc-${VERSIONS['GCC']}.tar.gz" \
-                   ['NEWLIB']="newlib-${VERSIONS['NEWLIB']}.tar.gz" \
+                   ['AVRLIBC']="avr-libc-${VERSIONS['AVRLIBC']}.tar.bz2" \
+                   ['SIMULAVR']="simulavr-${VERSIONS['SIMULAVR']}.tar.gz" \
                    ['GDB']="gdb-${VERSIONS['GDB']}.tar.gz" \
+                   ['AVRDUDE']="avrdude-${VERSIONS['AVRDUDE']}.tar.gz" \
                    )
 
 
-OPTS=( 'BINUTILS' 'GMP' 'MPFR' 'MPC' 'GCC' 'NEWLIB' 'GCC' 'GDB' )
+OPTS=( 'BINUTILS' 'GMP' 'MPFR' 'MPC' 'GCC' 'AVRLIBC' 'GCC' 'SIMULAVR' 'GDB' 'AVRDUDE' )
 
-BINUTILS=( "--target=${TARGET}" \
+BINUTILS=( \
+           "--target=${TARGET}" \
            "--disable-nls" \
            "--disable-shared" \
+           "--disable-threads" \
+           "--with-gcc" \
            "--with-gnu-as" \
            "--with-gnu-ld" \
            "--enable-install-libbfd" \
+           "--enable-install-libiberty" \
            "--disable-werror" \
-           )
+         )
 
 GMP=
 
-MPFR=( "--with-gmp=${PREFIX}" )
+MPFR=( \
+       "--with-gmp=${PREFIX}" \
+     )
 
-MPC=( "--with-gmp=${PREFIX}" \
+MPC=( \
+      "--with-gmp=${PREFIX}" \
       "--with-mpfr=${PREFIX}" \
-      )
+    )
 
-GCC=( "--target=${TARGET}" \
+GCC=( \
+      "--target=${TARGET}" \
       "--with-mpfr=${PREFIX}" \
       "--with=mpc=${PREFIX}" \
       "--disable-nls" \
       "--enable-languages=c" \
       "--without-headers" \
-      "--with-newlib" \
       "--with-multilib" \
       "--disable-libssp" \
       "--disable-shared" \
       "--disable-threads" \
-      )
+    )
 
-NEWLIB=( "--host=${TARGET}" )
+AVRLIBC=( \
+          "--host=${TARGET}" \
+        )
 
-GCC2=( "--target=${TARGET}" \
+GCC2=( \
+       "--target=${TARGET}" \
        "--with-mpfr=${PREFIX}" \
        "--with-mpc=${PREFIX}" \
        "--disable-nls" \
        "--enable-languages=c,c++" \
-       "--with-newlib" \
        "--with-multilib" \
        "--disable-libssp" \
        "--disable-shared" \
        "--disable-threads" \
-       )
+     )
 
-GDB=( "--target=${TARGET}" \
+SIMULAVR=( \
+           "--with-bfd=${PREFIX}/i686-pc-linux-gnu/avr" \
+           "--with-libiberty=${PREFIX}/lib" \
+           "CFLAGS=-Wno-error" \
+         )
+
+GDB=( \
+      "--target=${TARGET}" \
       "--with-gmp=${PREFIX}" \
       "--with-mpfr=${PREFIX}" \
       "--disable-nls" \
       "--disable-libssp" \
       "--disable-werror" \
     )
+
+AVRDUDE=( \
+          "--target=${TARGET}" \
+        )
 
 
 
