@@ -7,31 +7,31 @@ wasn't really easy, so after some failed attempts at a process that can take hou
 automate the whole thing.
 
 Being such an addict to perfection, I kept refactoring the script more an more, making it more and more
-HOST and TARGET-independent, smaller and more organized.
+**host** and **target-independent**, smaller and more organized.
 
-Until the BIG surprise came: I could use the SAME script for compiling different version of the AVR toolchain,
-AND - read careffuly - toolchains for DIFFERENT architectures. This is how the
-multiarch-toolchain-buildscripts suite was born.
+Until the BIG surprise came: I could use the **same** script for compiling different version of the AVR toolchain,
+and – read careffuly – toolchains for **different** architectures.
+This is how the multiarch-toolchain-buildscripts suite was born.
 
-The suite is organized as a "generic" part, called build\_toolchain.sh, which is combined with a
-target-specific part. For now we have target-specific parts for AVR and MIPS toolchains. However, it should be
-REALLY easy to add more architectures to this list - you only need to copy build\_template\_toolchain.sh and
-modify some few variables. The only reason for this repo having only AVR and MIPS definitions is that I'm
-VERY lazy :)
+The suite is organized as a "generic" part, called `common.sh`, which is combined with a target-specific part.
+For now we have target-specific parts for AVR and MIPS toolchains.
+However, it should be **really** easy to add more architectures to this list – you only
+need to copy `build_template.sh` and modify some few variables.
+The only reason for this repo having only AVR and MIPS definitions is that I'm lazy ☺
 
-The scripts themselves have pretty good commentary on why things are the way they are, but how do you actually
-BUILD a toolchain using this suite??
+The scripts themselves have pretty good commentary on why things are the way they are,
+but how do you actually build a toolchain using this suite??
 
-Easy. If you need to build a toolchain for architecture XXX, run:
+Easy. If you need to build a toolchain for architecture X, run:
 
-./build\_XXX\_toolchain.sh <n-threads> <toolchains-dirtree>
+```bash
+./build\_X.sh <n-threads> <toolchains-dirtree>
+```
 
-Where <n-threads> is the number of threads that _make_ should use when building, and <toolchain-dirtree> is
-the place on your machine where all toolchains built with this suite shall live. The tools for architecture
-XXX will be then under <toolchain-dirtree>/XXX
+Where `<n-threads>` is the number of threads that _make_ should use when building,
+and `<toolchain-dirtree>` is the place on your machine where all toolchains built with this suite shall live.
+The tools for architecture X will be then under `<toolchain-dirtree>/XXX`
 
-
-Everybody is welcome to add new architectures, modify the generic and specific parts, fork, send pull
-requests, etc :)
+Everybody is welcome to add new architectures, modify the generic and specific parts, fork, send pull requests, etc ☺
 
 PS: Works also on Mac OS X hosts!  (tested on Snow Leopard)

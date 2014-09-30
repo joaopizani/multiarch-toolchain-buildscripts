@@ -127,20 +127,20 @@ AVRDUDE=( \
 
 
 
+THR_DEFAULT="$(grep -c ^processor '/proc/cpuinfo')"
+THR="${1:-"${THR_DEFAULT}"}"
+
 BUILD_HOME_DEFAULT="${HOME}/build"
-BUILD_HOME="${1:-"${BUILD_HOME_DEFAULT}"}"
+BUILD_HOME="${2:-"${BUILD_HOME_DEFAULT}"}"
 
 PACKDIR_DEFAULT="${BUILD_HOME}/packs"
-PACKDIR="${2:-"${PACKDIR_DEFAULT}"}"
+PACKDIR="${3:-"${PACKDIR_DEFAULT}"}"
 
 BUILDDIR_DEFAULT="${BUILD_HOME}"
-BUILDDIR="${3:-"${BUILDDIR_DEFAULT}"}/${TARGET}-gcc-${VERSIONS['GCC']}-build"
-
-THR_DEFAULT="$(grep -c ^processor '/proc/cpuinfo')"
-THR="${4:-"${THR_DEFAULT}"}"
+BUILDDIR="${4:-"${BUILDDIR_DEFAULT}"}/${TARGET}-gcc-${VERSIONS['GCC']}-build"
 
 PREFIX="${BUILD_HOME}/${TARGET}/gcc-${VERSIONS['GCC']}"
 
 
 #### After defining all necessary variables, source the generic part now ####
-source "./build_toolchain.sh"
+source "./common.sh"
