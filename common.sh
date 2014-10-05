@@ -8,9 +8,7 @@ mkdir -p "${BUILDDIR}" "${PACKDIR}"
 # Wget the packages if necessary
 cd "${PACKDIR}"
 for k in ${!PACKS[@]}; do
-    if [ ! -e "${PACKS[$k]}" ]; then
-        wget "${SITES[$k]}/${PACKS[$k]}" || { echo "Error downloading ${PACKS[$k]}"; exit 1; }
-    fi
+    wget -nc "${SITES[$k]}/${PACKS[$k]}" || { echo "Error downloading ${PACKS[$k]}"; exit 1; }
 done
 
 # Unpack if necessary

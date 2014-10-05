@@ -50,6 +50,26 @@ declare -A PACKS=( \
                    )
 
 
+
+### DO NOT EDIT THE BLOCK AFTER THIS LINE ###
+DIR="$(cd -P "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")" )" && pwd)"
+
+THR_DEFAULT="$(grep -c ^processor '/proc/cpuinfo')"
+THR="${1:-"${THR_DEFAULT}"}"
+
+BUILD_HOME_DEFAULT="${DIR}/toolchains"
+BUILD_HOME="$(readlink -f "${2:-"${BUILD_HOME_DEFAULT}"}")"
+
+PACKDIR_DEFAULT="${BUILD_HOME}/packs"
+PACKDIR="$(readlink -f "${3:-"${PACKDIR_DEFAULT}"}")"
+
+BUILDDIR_DEFAULT="${BUILD_HOME}"
+BUILDDIR="$(readlink -f "${4:-"${BUILDDIR_DEFAULT}"}/${TARGET}-gcc-${VERSIONS['GCC']}-build")"
+
+PREFIX="${BUILD_HOME}/${TARGET}/gcc-${VERSIONS['GCC']}"
+### DO NOT EDIT THE BLOCK ABOVE ###
+
+
 OPTS=( 'BINUTILS' 'GMP' 'MPFR' 'MPC' 'GCC' 'AVRLIBC' 'GCC' 'SIMULAVR' 'GDB' 'AVRDUDE' )
 
 BINUTILS=( \
@@ -127,20 +147,5 @@ AVRDUDE=( \
 
 
 
-THR_DEFAULT="$(grep -c ^processor '/proc/cpuinfo')"
-THR="${1:-"${THR_DEFAULT}"}"
-
-BUILD_HOME_DEFAULT="${HOME}/build"
-BUILD_HOME="${2:-"${BUILD_HOME_DEFAULT}"}"
-
-PACKDIR_DEFAULT="${BUILD_HOME}/packs"
-PACKDIR="${3:-"${PACKDIR_DEFAULT}"}"
-
-BUILDDIR_DEFAULT="${BUILD_HOME}"
-BUILDDIR="${4:-"${BUILDDIR_DEFAULT}"}/${TARGET}-gcc-${VERSIONS['GCC']}-build"
-
-PREFIX="${BUILD_HOME}/${TARGET}/gcc-${VERSIONS['GCC']}"
-
-
 #### After defining all necessary variables, source the generic part now ####
-source "./common.sh"
+source "${DIR}/common.sh"

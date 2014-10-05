@@ -22,15 +22,15 @@ The only reason for this repo having only AVR and MIPS definitions is that I'm l
 The scripts themselves have pretty good commentary on why things are the way they are,
 but how do you actually build a toolchain using this suite??
 
-Easy. If you need to build a toolchain for architecture X, run:
+Easy. If you need to build a toolchain for a certain architecture `<arch>`, then run:
 
 ```bash
-./build\_X.sh <n-threads> <toolchains-dirtree>
+./build_<arch>.sh <n-threads> <toolchains-dirtree>
 ```
 
 Where `<n-threads>` is the number of threads that _make_ should use when building,
 and `<toolchain-dirtree>` is the place on your machine where all toolchains built with this suite shall live.
-The tools for architecture X will be then under `<toolchain-dirtree>/XXX`
+The tools for architecture `<arch>` will be then under `<toolchain-dirtree>/<arch>`
 
 Everybody is welcome to add new architectures, modify the generic and specific parts, fork, send pull requests, etc ☺
 
