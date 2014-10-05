@@ -98,6 +98,7 @@ MPC=( \
 
 GCC=( \
       "--target=${TARGET}" \
+      "--with-gmp=${PREFIX}" \
       "--with-mpfr=${PREFIX}" \
       "--with=mpc=${PREFIX}" \
       "--disable-nls" \
@@ -115,6 +116,7 @@ AVRLIBC=( \
 
 GCC2=( \
        "--target=${TARGET}" \
+       "--with-gmp=${PREFIX}" \
        "--with-mpfr=${PREFIX}" \
        "--with-mpc=${PREFIX}" \
        "--disable-nls" \

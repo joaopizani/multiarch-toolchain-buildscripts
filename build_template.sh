@@ -85,6 +85,7 @@ MPC=( "--with-gmp=${PREFIX}" \
       )
 
 GCC=( "--target=${TARGET}" \
+      "--with-gmp=${PREFIX}" \
       "--with-mpfr=${PREFIX}" \
       "--with=mpc=${PREFIX}" \
       "--disable-nls" \
@@ -100,6 +101,7 @@ GCC=( "--target=${TARGET}" \
 NEWLIB=( "--host=${TARGET}" )
 
 GCC2=( "--target=${TARGET}" \
+       "--with-gmp=${PREFIX}" \
        "--with-mpfr=${PREFIX}" \
        "--with-mpc=${PREFIX}" \
        "--disable-nls" \
