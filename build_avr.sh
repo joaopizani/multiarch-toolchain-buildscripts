@@ -58,13 +58,13 @@ THR_DEFAULT="$(grep -c ^processor '/proc/cpuinfo')"
 THR="${1:-"${THR_DEFAULT}"}"
 
 BUILD_HOME_DEFAULT="${DIR}/toolchains"
-BUILD_HOME="$(readlink -f "${2:-"${BUILD_HOME_DEFAULT}"}")"
+BUILD_HOME="$(readlink -m "${2:-"${BUILD_HOME_DEFAULT}"}")"
 
 PACKDIR_DEFAULT="${BUILD_HOME}/packs"
-PACKDIR="$(readlink -f "${3:-"${PACKDIR_DEFAULT}"}")"
+PACKDIR="$(readlink -m "${3:-"${PACKDIR_DEFAULT}"}")"
 
 BUILDDIR_DEFAULT="${BUILD_HOME}"
-BUILDDIR="$(readlink -f "${4:-"${BUILDDIR_DEFAULT}"}/${TARGET}-gcc-${VERSIONS['GCC']}-build")"
+BUILDDIR="$(readlink -m "${4:-"${BUILDDIR_DEFAULT}"}/${TARGET}-gcc-${VERSIONS['GCC']}-build")"
 
 PREFIX="${BUILD_HOME}/${TARGET}/gcc-${VERSIONS['GCC']}"
 ### DO NOT EDIT THE BLOCK ABOVE ###

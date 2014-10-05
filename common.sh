@@ -6,10 +6,7 @@
 mkdir -p "${BUILDDIR}" "${PACKDIR}"
 
 # Wget the packages if necessary
-cd "${PACKDIR}"
-for k in ${!PACKS[@]}; do
-    wget -nc "${SITES[$k]}/${PACKS[$k]}" || { echo "Error downloading ${PACKS[$k]}"; exit 1; }
-done
+for k in ${!PACKS[@]}; do wget -O "${PACKDIR}/${PACKS[$k]}" -nc "${SITES[$k]}/${PACKS[$k]}"; done
 
 # Unpack if necessary
 for p in "${PACKS[@]}"; do
@@ -26,10 +23,9 @@ for p in "${PACKS[@]}"; do mkdir -p "${BUILDDIR}/build-${p%%.tar.*}"; done
 export LD_LIBRARY_PATH="${PREFIX}/lib" PATH="${PREFIX}/bin:${PATH}"
 
 # configure, make and make install all packs
-cd "${BUILDDIR}"
 GCC_BOOTSTRAPPED=0
 for t in "${OPTS[@]}"; do
-    cd "build-${PACKS[$t]%%.tar.*}"
+    cd "${BUILDDIR}/build-${PACKS[$t]%%.tar.*}"
 
     if [ "${t}" = 'GCC' -a "${GCC_BOOTSTRAPPED}" = 1 ]; then  # GCC again (post-bootstrap)
         "../${PACKS[$t]%%.tar.*}/configure" --prefix="${PREFIX}" ${GCC2}
@@ -42,12 +38,8 @@ for t in "${OPTS[@]}"; do
     if [ ${t} = 'GCC' ]; then make install-gcc install-target-libgcc; else make install; fi
     [ $? != 0 ] && { echo "Error installing ${PACKS[$t]}"; exit 6; }
     [ ${t} = 'GCC' ] && GCC_BOOTSTRAPPED=1
-
-    cd ..
 done
 
 # Cleanup build directories
-cd "${BUILDDIR}"
-for p in "${PACKS[@]}"; do rm -rf "build-${p%%.tar.*}" "${p%%.tar.*}"; done
-cd ..
+for p in "${PACKS[@]}"; do rm -rf "${BUILDDIR}/build-${p%%.tar.*}" "${BUILDDIR}/${p%%.tar.*}"; done
 rm -rf "${BUILDDIR}"
