@@ -101,9 +101,9 @@ GCC=( "--target=${TARGET}" \
 NEWLIB=( "--host=${TARGET}" )
 
 GCC2=( "--target=${TARGET}" \
-       "--with-gmp=${PREFIX}" \
-       "--with-mpfr=${PREFIX}" \
-       "--with-mpc=${PREFIX}" \
+       "--with-gmp=${PREFIX}/include" \
+       "--with-mpfr=${PREFIX}/include" \
+       "--with-mpc=${PREFIX}/include" \
        "--disable-nls" \
        "--enable-languages=c,c++" \
        "--with-newlib" \
